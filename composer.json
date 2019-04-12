@@ -1,0 +1,25 @@
+{
+    "name": "spresnac/laravel-artisan-database-helper",
+    "description": "Some usefull helper to handle database backup & restores",
+    "keywords": ["php", "laravel", "laravel", "artisan", "database"],
+    "type": "library",
+    "require": {
+      "php": "7.*",
+      "illuminate/support": "5.*",
+      "illuminate/console": "5.*",
+      "symfony/process": "^4.2"
+    },
+    "autoload": {
+      "psr-4": {
+        "spresnac\\": "src/spresnac/"
+      }
+    },
+    "minimum-stability": "stable",
+    "license": "MIT",
+    "authors": [
+      {
+        "name": "Sascha Presnac",
+        "email": "presnac@gmail.com"
+      }
+    ]
+  }
