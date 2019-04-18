@@ -6,7 +6,7 @@ This package will provide you some helper for
   
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 ![PHP from Packagist](https://img.shields.io/packagist/php-v/spresnac/laravel-artisan-database-helper.svg)
-![Packagist](https://img.shields.io/packagist/l/spresnac/laravel-artisan-database-helper.svg)
+![Downloads](https://img.shields.io/packagist/dt/spresnac/laravel-artisan-database-helper.svg)
 
 # Installation
 First things first, so require the package:
