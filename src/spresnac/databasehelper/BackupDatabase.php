@@ -19,7 +19,8 @@ class BackupDatabase extends Command
                             {connection=mysql : The connection entry in your config, which schema to be exported} 
                             {path_to_mysql? : [Optional] Specify the path to you mysqldump binary} 
                             {--S|structure_only : Export only the structure of your schema}
-                            {--O|skip_opt : Use --skip-opt on export}';
+                            {--O|skip_opt : Use --skip-opt on export}
+                            {--D|date_prefix : Set a date prefix to the export file}';
 
     /**
      * The console command description.
@@ -72,12 +73,17 @@ class BackupDatabase extends Command
         }
         $command .= '%2$s > %3$s';
 
+        $export_file_name = $this->argument('connection') . '_'.$name_suffix.'.sql';
+        if ($this->option('date_prefix')) {
+            $export_file_name = date('Ymd') . '_' . $export_file_name;
+        }
+
         try {
             $this->process = (new Process(sprintf(
                 $command,
                 config('database.connections.' . $this->argument('connection') . '.username'),
                 config('database.connections.' . $this->argument('connection') . '.database'),
-                storage_path('app' . DIRECTORY_SEPARATOR . 'backups' . DIRECTORY_SEPARATOR . $this->argument('connection') . '_'.$name_suffix.'.sql'),
+                storage_path('app' . DIRECTORY_SEPARATOR . 'backups' . DIRECTORY_SEPARATOR . $export_file_name),
                 config('database.connections.' . $this->argument('connection') . '.password')
             )))->mustRun();
             $this->info('backups' . DIRECTORY_SEPARATOR . $this->argument('connection') . '_'.$name_suffix.'.sql created succesfull...');

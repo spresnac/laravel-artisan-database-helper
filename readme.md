@@ -82,6 +82,12 @@ This is one option that i personally need a lot. For details why, look in the 'H
 php artisan db:backup -O
 ```
 
+#### Export with a date prefix
+You can export with the actual date as a prefix to the export file name. It will look like `20190425_yourConnection.sql`.
+```
+php artisan db:backup -D
+```
+
 #### Glueing it all together
 All glued together (export a specific database, with a custom path, structure only with no options in it):
 ```
@@ -97,15 +103,19 @@ If you set the `-S` option, it looks like this
 ```
 storage/app/backups/<connection>_structure.sql
 ```
+When used with `-D` it will look like
+```
+storage/app/backups/<Ymd_><connection>_backup.sql
+```
 
-## RestoreDatabase
+## DropTable
 Coming soon...
 For this time, simply use
 ```
 php artisan help db:drop-tables
 ```
 
-## DropTable
+## RestoreDatabase
 Coming soon...
 For this time, simply use
 ```
