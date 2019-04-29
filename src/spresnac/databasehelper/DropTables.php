@@ -14,7 +14,8 @@ class DropTables extends Command
      * @var string
      */
     protected $signature = 'db:drop-tables
-                            {connection=mysql : The connection to be used}';
+                            {connection=mysql : The connection to be used}
+                            {--force : Do not ask questions, just do it ;)}';
 
     /**
      * The console command description.
@@ -46,7 +47,11 @@ class DropTables extends Command
             $this->error('connection is unknown :(');
             exit();
         }
-        Schema::connection($this->argument('connection'))->dropAllTables();
-        $this->info('tables dropped :)');
+        if ($this->option('force') === true || $this->confirm('Drop all tables on connection ' . $this->argument('connection') . '?', true)) {
+            Schema::connection($this->argument('connection'))->dropAllTables();
+            $this->info('tables dropped :)');
+            exit();
+        }
+        $this->info('dropping tables interupted...');
     }
 }
