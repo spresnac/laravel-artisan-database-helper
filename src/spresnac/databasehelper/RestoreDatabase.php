@@ -56,7 +56,7 @@ class RestoreDatabase extends Command
         if (config('database.connections.' . $this->argument('connection') . '.password') !== '') {
             $command .= '-p%4$s ';
         }
-        $command .= '%2$s < %3$s';
+        $command .= '%2$s < "%3$s"';
 
         try {
             $this->process = (new Process(sprintf(
