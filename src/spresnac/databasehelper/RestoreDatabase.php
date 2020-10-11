@@ -56,7 +56,7 @@ class RestoreDatabase extends Command
         if (config('database.connections.' . $this->argument('connection') . '.password') !== '') {
             $command .= '-p%4$s ';
         }
-        $command .= '%2$s < %3$s';
+        $command .= '%2$s < "%3$s"';
 
         try {
             $this->process = (new Process(sprintf(
@@ -66,9 +66,9 @@ class RestoreDatabase extends Command
                 storage_path('app' . DIRECTORY_SEPARATOR . 'backups' . DIRECTORY_SEPARATOR . $this->argument('backup').'.sql'),
                 config('database.connections.' . $this->argument('connection') . '.password')
             )))->mustRun();
-            $this->info('database restored');
+            $this->info('database '.$this->argument('backup').' restored');
         } catch (ProcessFailedException $exception) {
-            $this->error('The restore process has been failed.');
+            $this->error('The restore process for '.$this->argument('backup').' has been failed.');
             $this->line($exception->getMessage());
             $this->line($exception->getTraceAsString());
         }
