@@ -3,7 +3,7 @@ This package will provide you some helper for
 * Backup your database
 * Restore this backups
 * Drop all tables from a schema
-  
+
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
 ![PHP from Packagist](https://img.shields.io/packagist/php-v/spresnac/laravel-artisan-database-helper.svg)
 ![Downloads](https://img.shields.io/packagist/dt/spresnac/laravel-artisan-database-helper.svg)
@@ -15,15 +15,6 @@ First things first, so require the package:
 composer require spresnac/laravel-artisan-database-helper
 ```
 
-Now, register the new command within your ``app\Console\Kernel.php``
-```
-    protected $commands = [
-        // ...
-        \spresnac\databasehelper\BackupDatabase::class,
-        \spresnac\databasehelper\RestoreDatabase::class,
-        \spresnac\databasehelper\DropTables::class,
-    ];
-```
 That's all, you are ready to go now 😁
 
 # Usage
@@ -33,7 +24,7 @@ To backup your database, open up your console and type
 ```
 php artisan db:backup
 ```
-and in most cases, you are done. You will find your backup in 
+and in most cases, you are done. You will find your backup in
 ```
 storage/app/backups
 ```
