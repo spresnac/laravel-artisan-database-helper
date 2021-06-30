@@ -17,7 +17,8 @@ class BackupDatabase extends Command
      */
     protected $signature = 'db:backup 
                             {connection=mysql : The connection entry in your config, which schema to be exported} 
-                            {path_to_mysql? : [Optional] Specify the path to you mysqldump binary} 
+                            {path_to_mysql? : [Optional] Specify the path to you mysqldump binary}
+                            {specified_port? : [Optional] Set port to connect on}
                             {--S|structure_only : Export only the structure of your schema}
                             {--O|skip_opt : Use --skip-opt on export}
                             {--D|date_prefix : Set a date prefix to the export file}';
@@ -63,6 +64,9 @@ class BackupDatabase extends Command
         $command = 'mysqldump -u %1$s ';
         if (config('database.connections.' . $this->argument('connection') . '.password') !== '') {
             $command .= '-p%4$s ';
+        }
+        if ($this->hasArgument('specified_port') === true && $this->argument('specified_port') !== null) {
+            $command .= '--port=' . $this->argument('specified_port') . ' ';
         }
         if ($this->option('structure_only')) {
             $command .= '-d ';

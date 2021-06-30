@@ -17,7 +17,8 @@ class RestoreDatabase extends Command
     protected $signature = 'db:restore
                             {backup=mysql_backup : The name of the backup file} 
                             {connection=mysql : The connection entry in your config, into which schema is imported}
-                            {path_to_mysql? : [Optional] Specify the path to you mysql binary}';
+                            {path_to_mysql? : [Optional] Specify the path to you mysql binary}
+                            {specified_port? : [Optional] Set port to connect on}';
 
     /**
      * The console command description.
@@ -55,6 +56,9 @@ class RestoreDatabase extends Command
         $command = 'mysql -u %1$s ';
         if (config('database.connections.' . $this->argument('connection') . '.password') !== '') {
             $command .= '-p%4$s ';
+        }
+        if ($this->hasArgument('specified_port') === true && $this->argument('specified_port') !== null) {
+            $command .= '--port=' . $this->argument('specified_port') . ' ';
         }
         $command .= '%2$s < "%3$s"';
 
