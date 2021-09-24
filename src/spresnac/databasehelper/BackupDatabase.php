@@ -2,6 +2,7 @@
 
 namespace spresnac\databasehelper;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Storage;
@@ -61,7 +62,7 @@ class BackupDatabase extends Command
         if ($this->hasArgument('path_to_mysql') === true && $this->argument('path_to_mysql') !== null) {
             chdir($this->argument('path_to_mysql'));
         }
-        $command = 'mysqldump -u %1$s ';
+        $command = 'mysqldump -u%1$s ';
         if (config('database.connections.' . $this->argument('connection') . '.password') !== '') {
             $command .= '-p%4$s ';
         }
@@ -83,15 +84,15 @@ class BackupDatabase extends Command
         }
 
         try {
-            $this->process = (new Process(sprintf(
+            exec(sprintf(
                 $command,
                 config('database.connections.' . $this->argument('connection') . '.username'),
                 config('database.connections.' . $this->argument('connection') . '.database'),
                 storage_path('app' . DIRECTORY_SEPARATOR . 'backups' . DIRECTORY_SEPARATOR . $export_file_name),
                 config('database.connections.' . $this->argument('connection') . '.password')
-            )))->mustRun();
+            ));
             $this->info('backups' . DIRECTORY_SEPARATOR . $this->argument('connection') . '_'.$name_suffix.'.sql created succesfull...');
-        } catch (ProcessFailedException $exception) {
+        } catch (Exception $exception) {
             $this->error('The backup process has been failed.');
             $this->line($exception->getMessage());
             $this->line($exception->getTraceAsString());

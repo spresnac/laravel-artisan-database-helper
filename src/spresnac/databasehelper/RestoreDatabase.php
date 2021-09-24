@@ -2,6 +2,7 @@
 
 namespace spresnac\databasehelper;
 
+use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Config;
 use Symfony\Component\Process\Process;
@@ -53,7 +54,7 @@ class RestoreDatabase extends Command
         if ($this->hasArgument('path_to_mysql') === true && $this->argument('path_to_mysql') !== null) {
             chdir($this->argument('path_to_mysql'));
         }
-        $command = 'mysql -u %1$s ';
+        $command = 'mysql -u%1$s ';
         if (config('database.connections.' . $this->argument('connection') . '.password') !== '') {
             $command .= '-p%4$s ';
         }
@@ -63,15 +64,15 @@ class RestoreDatabase extends Command
         $command .= '%2$s < "%3$s"';
 
         try {
-            $this->process = (new Process(sprintf(
+            exec(sprintf(
                 $command,
                 config('database.connections.' . $this->argument('connection') . '.username'),
                 config('database.connections.' . $this->argument('connection') . '.database'),
                 storage_path('app' . DIRECTORY_SEPARATOR . 'backups' . DIRECTORY_SEPARATOR . $this->argument('backup').'.sql'),
                 config('database.connections.' . $this->argument('connection') . '.password')
-            )))->mustRun();
+            ));
             $this->info('database '.$this->argument('backup').' restored');
-        } catch (ProcessFailedException $exception) {
+        } catch (Exception $exception) {
             $this->error('The restore process for '.$this->argument('backup').' has been failed.');
             $this->line($exception->getMessage());
             $this->line($exception->getTraceAsString());
