@@ -4,8 +4,11 @@ This package will provide you some helper for
 * Restore this backups
 * Drop all tables from a schema
 
+[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=for-the-badge&logo=github)](LICENSE)
+[![PHP from Packagist](https://img.shields.io/packagist/php-v/spresnac/laravel-artisan-database-helper.svg?style=for-the-badge&logo=php)](https://packagist.org/packages/spresnac/laravel-artisan-database-helper)
+[![Laravel Version](https://img.shields.io/badge/Laravel-%5E7%20|%20%5E8-important?style=for-the-badge&logo=laravel)](https://laravel.com)
+
 [![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE)
-![PHP from Packagist](https://img.shields.io/packagist/php-v/spresnac/laravel-artisan-database-helper.svg)
 ![Downloads](https://img.shields.io/packagist/dt/spresnac/laravel-artisan-database-helper.svg)
 
 # Installation
@@ -100,10 +103,14 @@ storage/app/backups/<Ymd_><connection>_backup.sql
 ```
 
 ## DropTable
-Coming soon...
-For this time, simply use
+With this command you can quickly "emtpy" a given database schema without deleting the schema itself. For short, all tables in the given connection will be deleted.
 ```
-php artisan help db:drop-tables
+php artisan db:drop-tables <connection>
+```
+
+If you want to use this in an automatic way, you can use the `--force` option to delete the tables without confirmation (you be warned!).
+```
+php artisan db:drop-tables <connection> --force
 ```
 
 ## RestoreDatabase
