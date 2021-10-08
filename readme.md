@@ -114,14 +114,30 @@ php artisan db:drop-tables <connection> --force
 ```
 
 ## RestoreDatabase
-Coming soon...
-For this time, simply use
+To restore a backup, simply use
 ```
-php artisan help db:restore
+php artisan db:restore
+```
+You can provide more options in case you need one of this:
+
+```
+php artisan db:restore <backup_name> <connection> <path_to_mysql> <port>
 ```
 
-# How i use it for testing my apps
-I have to write this down soon...
+All this options are similar to the ones described in `db:backup`, so you are able to seamlessly restore a backuped database.
+
+# How i use it for testing or bugfixing my apps
+When having complex setups for very complex bugs it may happen that you are in need of some very specific database entries you do not want to reproduce all the time.
+
+In this case, i do use this package as a helper for me to bugfix faster.
+1. Create a backup from the database with `db:backup`.
+2. Rename this backup like the bugticket i have.
+3. Setup my unit-test for this bug in a special group, that is not executed by default.
+4. In my testscript, i do define a testschema.
+5. Before running my tests, execute `db:drop-tables` on the testschema.
+6. Right after that, execute `db:restore <ticketnumber>`.
+
+With this, everytime i execute my tests for bugfing my database is reset to this very specific point where i can reproduce the bug and fix it fast.
 
 # Finally
-... have fun ;)
+... have fun 😉 and be productive with it.
